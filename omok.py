@@ -18,7 +18,11 @@ class omok:
         if self.errorCheck(x, y):
             if self.board[y, x] == 0:
                 self.board[y, x] = stone
-                self.fiveCheck(x, y, stone)
+                end = self.fiveCheck(x, y, stone)
+                if not end:
+                    pass
+                else:
+                    return end
             else:
                 return "02"
         else:
@@ -28,7 +32,7 @@ class omok:
         # 가로/세로/우상향 대각선/우하향대각선
         for k in range(4):
             count = 1
-            for v in [1, -1]: # 오른쪽 먼저 체크
+            for v in [1, -1]:
                 posStone = stone
                 while posStone == stone:
                     posStone = -1
@@ -49,14 +53,5 @@ class omok:
                         if self.board[_y, _x] == stone: # 자표값이 stone 인지 확인
                             posStone = stone
                             count += 1
-            print(count)
-
-if __name__ == "__main__":
-    om = omok()
-    count = 1
-    while True:
-        stone = 1 if count % 2 else 2
-        print(om.board)
-        x, y = input("x y : ").split(" ")
-        print(om.put(int(x), int(y), stone))
-        count += 1
+            if count == 5:
+                return "end"
